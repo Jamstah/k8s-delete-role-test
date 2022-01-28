@@ -5,14 +5,18 @@ metadata:
 data:
   create-and-delete.sh: |-
     #!/bin/sh
+
+    # Test we can successfully manage configmaps (should succeed)
     kubectl create -f /script/configmaps-role.yaml
     kubectl delete rolebinding configmaps
     kubectl delete role configmaps
     
+    # Test that we can't manage secrets (should fail)
     kubectl create -f /script/secrets-role.yaml
     kubectl delete rolebinding secrets
     kubectl delete role secrets
-    
+
+    # Test if we can delete existing roles/bindings with more permissions
     kubectl delete rolebinding everything
     kubectl delete role everything
   configmaps-role.yaml: |-
